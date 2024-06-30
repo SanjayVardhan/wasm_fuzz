@@ -115,6 +115,21 @@ def tokenize_function_body(function_body):
 
     return tokens
 
+
+#   std::string js = "var wasm_code = new Uint8Array([";
+#   for(auto it:output) {
+#     js += std::to_string((int)(it));
+#     js += ',';
+#   }
+
+#   js.pop_back();
+#   js += "]);\n"
+#         "var wasm_module = new WebAssembly.Module(wasm_code);\n"
+#         "var wasm_instance = new WebAssembly.Instance(wasm_module);\n"
+#         "var f = wasm_instance.exports.main;\n"
+#         "f();\n";
+
+
 def process_numbers(tokens):
     modified_tokens = []
     
