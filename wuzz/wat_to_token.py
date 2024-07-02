@@ -1,4 +1,5 @@
-
+import sra2
+import mutations
 token_list = [
     "unreachable", "nop", "block", "loop",
     "if", "else", "try", "try_table", "throw_ref",
@@ -492,22 +493,39 @@ def main():
     print("binary tokens -->" + str(binary_tokens))
     
     binary_string = ''.join(format(byte, '08b') for byte in binary_tokens)
+    # binary string to raw binary
+    # binary_string = bytes([int(binary_string[i:i+8], 2) for i in range(0, len(binary_string), 8)])
+    
     print(binary_string)
     if(len(binary_string) % 8 != 0):
         print("Not 16bit aligned")
-    
+    def binary_to_int_array(binary_string):
+    # Split the binary string into 8-bit chunks
+        chunks = [binary_string[i:i+8] for i in range(0, len(binary_string), 8)]
+    # Convert each chunk to an integer
+        return [int(chunk, 2) for chunk in chunks]
 
 # Reconstruction of the wat file from the binary tokens
-
-    wat_lines = binary_to_wat(binary_tokens, token_list)
+    # call the mutation functions in mutations.py randomly on 
+    # binary_string = mutations.left_shift_mutation(binary_string)
+    # select a mutation function randomly and apply it to the binary string
+    random_mutation = random.choice([mutations.add_mutation, mutations.remove_mutation, mutations.bit_flip_mutation, mutations.insertion_mutation])
+    binary_string = random_mutation(binary_string)
+    print(binary_string)
+    int_bin = binary_to_int_array(binary_string)
+    print(int_bin)
+    wat_lines = binary_to_wat(int_bin, token_list)
     wat_lines = format_tokens(wat_lines)
+    stack_repair = sra2.stack_repair(wat_lines)
+    print("lol")
+    print(stack_repair)
     print(wat_lines)
 
     idx = int(chosen_function.split('_')[1]) -1
     # chosen_func = f"func_{idx}"
     # print(chosen_func)
     print(idx)
-    updated_wat_content = replace_function_body_by_index(wat_file_content, idx, wat_lines)
+    updated_wat_content = replace_function_body_by_index(wat_file_content, idx, stack_repair)
 
     print(updated_wat_content)
 

@@ -5,7 +5,8 @@ def stack_repair(wat_instructions):
         "i32.add": (["i32", "i32"], ["i32"]),
         "i32.mul": (["i32", "i32"], ["i32"]),
         "local.get": ([], ["i32"]),  # Assumes 'local.get' pushes an i32
-        "i32.const": ([], ["i32"])  # Assumes 'i32.const' pushes an i32
+        "i32.const": ([], ["i32"]),  # Assumes 'i32.const' pushes an i32
+        "i32.store": (["i32", "i32"], [])  # Assumes 'i32.store' pops two i32s
     }
 
     def repair_stack(op, stack):
