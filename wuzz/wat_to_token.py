@@ -413,8 +413,8 @@ def binary_to_wat(binary_tokens, token_list):
     i = 0
     while i < len(binary_tokens):
         token_idx = binary_tokens[i]
-        if token_idx in idx_to_token:
-            operation = idx_to_token[token_idx]
+        if token_idx%164 in idx_to_token:
+            operation = idx_to_token[token_idx%164]
             i += 1
             if i < len(binary_tokens) and binary_tokens[i] == 0x1337:
                 operand = "0x1337"
@@ -528,6 +528,7 @@ def main():
     updated_wat_content = replace_function_body_by_index(wat_file_content, idx, stack_repair)
 
     print(updated_wat_content)
+    print(len(token_list))
 
 # place the function body back into the original wat file
 
