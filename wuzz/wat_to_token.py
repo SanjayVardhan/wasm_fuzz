@@ -471,8 +471,8 @@ def main():
     tokens = tokenize_function_body(function_body)
     tokens = process_wat_file(tokens)
     
-    print(f"Chosen Function: {chosen_function}")
-    print(json.dumps(tokens, indent=4))
+    # print(f"Chosen Function: {chosen_function}")
+    # print(json.dumps(tokens, indent=4))
 
     # convert the tokens to 16bit binary representation
     binary_tokens = []
