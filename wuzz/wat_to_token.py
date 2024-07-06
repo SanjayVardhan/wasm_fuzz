@@ -1,4 +1,4 @@
-import sra2
+import sra3 as sra2
 import mutations
 token_list = [
     "unreachable", "nop", "block", "loop",
@@ -252,6 +252,22 @@ def extract_function_bodies(wat_content):
 
     return function_bodies, start_positions, end_positions
 
+
+def extract_function_params_and_return_type(function_body):
+    """Extracts the parameters and return type of a function from its body."""
+    params = []
+    return_type = None
+    lines = function_body.split('\n')
+    
+    for line in lines:
+        stripped_line = line.strip()
+        if stripped_line.startswith("(param"):
+            params.append(stripped_line.split()[1])
+        elif stripped_line.startswith("(result"):
+            return_type = stripped_line.split()[1]
+
+    return params, return_type
+
 def replace_function_in_wat(original_wat, start, end, new_function_body):
     """Replaces a function in the WAT file with new content."""
     wat_lines = original_wat.split('\n')
@@ -467,6 +483,12 @@ def main():
     # Randomly choose a function from the graph to tokenize
     chosen_function = random.choice(list(G.nodes))
     function_body = G.nodes[chosen_function]['body']
+    params , return_type = extract_function_params_and_return_type(G.nodes[chosen_function]['body'])
+    print(G.nodes[chosen_function]['body'])
+    print(f"Function: {chosen_function}")
+    print(f"Params: {params}")
+    print(f"Return Type: {return_type}")
+
 
     tokens = tokenize_function_body(function_body)
     tokens = process_wat_file(tokens)

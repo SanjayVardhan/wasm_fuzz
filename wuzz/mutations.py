@@ -27,8 +27,6 @@ def remove_mutation(binary_string):
         if random.random() < mutation_rate:
             binary_string.pop(random.randint(0, 1))
     # check if the string is 8 bit alligned and return the string
-
-
     return check_8bit(''.join(binary_string))
 
 # check if the string is 8 bit alligned
